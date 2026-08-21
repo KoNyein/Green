@@ -1,0 +1,14 @@
+import fs from "node:fs";
+const path = "client/src/pages/GwavePages.tsx";
+let source = fs.readFileSync(path, "utf8");
+const stateNeedle = 'const [selectedSlipId, setSelectedSlipId] = useState<number | null>(null);';
+if (!source.includes(stateNeedle)) throw new Error("Admin state anchor not found");
+source = source.replace(stateNeedle, `${stateNeedle} const [orderFilter, setOrderFilter] = useState("all");`);
+const sectionNeedle = '{copy("Every action below calls the server-side workflow validator. A completed order expires its associated private payment-slip records.", "အောက်ပါ action တစ်ခုစီသည် server-side workflow validator ကို ခေါ်ယူပါသည်။ Completed order တစ်ခုသည် ၎င်းနှင့်ဆိုင်သော private payment-slip record များကို expire ပြုလုပ်ပါသည်။")}';
+const sectionReplacement = `${sectionNeedle}<div className="mt-5 flex flex-wrap items-center gap-3"><label className="font-mono text-[10px] uppercase tracking-[.14em] text-white/45">{copy("Filter queue", "Queue စစ်ရန်")}<select value={orderFilter} onChange={event => setOrderFilter(event.target.value)} className="ml-3 h-10 border border-white/25 bg-black px-3 text-[10px] uppercase outline-none focus:border-[#8bd32c]"><option value="all">{copy("All statuses", "အခြေအနေအားလုံး")}</option>{Object.keys(NEXT_ORDER_STATUS).map(status => <option key={status} value={status}>{status.replaceAll("_", " ")}</option>)}</select></label></div>`;
+if (!source.includes(sectionNeedle)) throw new Error("Order workflow copy anchor not found");
+source = source.replace(sectionNeedle, sectionReplacement);
+const mapNeedle = '{staffOrders.data.map(order => {';
+if (!source.includes(mapNeedle)) throw new Error("Order map anchor not found");
+source = source.replace(mapNeedle, '{staffOrders.data.filter(order => orderFilter === "all" || order.status === orderFilter).map(order => {');
+fs.writeFileSync(path, source);

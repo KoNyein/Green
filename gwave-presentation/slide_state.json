@@ -1,0 +1,144 @@
+{
+  "project_info": {
+    "title": "Gwave",
+    "created": 1787253056.792,
+    "last_updated": 1787266147.994,
+    "total_slides": 12
+  },
+  "slides": [
+    {
+      "id": "cover",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "what_is_gwave",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "brand_signal",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "two_channels",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "knowledge_evidence",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "trust_workflow",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "order_process",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "bilingual_platform",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "help_center",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "roadmap",
+      "state": "edited",
+      "pageNum": 10
+    },
+    {
+      "id": "ninety_days",
+      "state": "edited",
+      "pageNum": 11
+    },
+    {
+      "id": "closing",
+      "state": "edited",
+      "pageNum": 12
+    }
+  ],
+  "outline": [
+    {
+      "id": "cover",
+      "title": "Gwave",
+      "summary": "21+ Cannabis & Lifestyle Platform — Brand • Knowledge • Trust • Commerce",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "what_is_gwave",
+      "title": "Gwave ဆိုတာဘာလဲ",
+      "summary": "Gwave ၏ brand, knowledge, commerce နှင့် trust platform အဖြစ် ရည်ရွယ်ချက်ကို အကျဉ်းချုပ်ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "brand_signal",
+      "title": "Brand သည် Signal တစ်ခုဖြစ်သည်",
+      "summary": "Industrial visual identity၊ logo၊ green system နှင့် Brand Signal campaign direction ကို ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "two_channels",
+      "title": "နှစ်မျိုးသော Channel — စည်းမျဉ်းတစ်မျိုးတည်း",
+      "summary": "Public Brand Shop နှင့် restricted Seeds/Farm Products channel boundary ကို ရှင်းပြမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "knowledge_evidence",
+      "title": "Knowledge ကို Evidence နှင့် ခွဲခြားပြသည်",
+      "summary": "Strain Library၊ filters၊ source-approved records နှင့် laboratory COA separation ကို ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "trust_workflow",
+      "title": "Trust သည် Workflow ထဲတွင် တည်ဆောက်သည်",
+      "summary": "21+ acknowledgement၊ role boundaries၊ COA workflow နှင့် private payment-slip controls ကို ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "order_process",
+      "title": "Order Process သည် ရှင်းလင်းပြီး စစ်ဆေးနိုင်သည်",
+      "summary": "Checkout၊ customer details၊ slip verification၊ order transitions နှင့် owner alerts ကို ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "bilingual_platform",
+      "title": "English နှင့် Myanmar — တစ်ပလက်ဖောင်းတည်း",
+      "summary": "Persistent language switcher နှင့် targeted bilingual experience ၏ အကျိုးကျေးဇူးကို ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "help_center",
+      "title": "Help Center သည် အသုံးပြုသူ၏ လမ်းညွှန်မြေပုံ",
+      "summary": "Help & User Guide ၏ search၊ FAQ နှင့် workflow guidance ကို ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "roadmap",
+      "title": "အနာဂတ် Roadmap — Trust မတိုင်မီ Scale မလုပ်",
+      "summary": "Launch readiness၊ trust operations၊ commerce growth နှင့် mobile/scale roadmap ကို ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "ninety_days",
+      "title": "နောက်ဆုံး 90 ရက် — Trust ကို တိုင်းတာပြီး Scale လုပ်မည်",
+      "summary": "Product photography၊ real COA၊ staff audit၊ packaging နှင့် KPI focus များကို ပြသမည့် slide။",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "closing",
+      "title": "Gwave — Build the Standard",
+      "summary": "Trust၊ brand၊ knowledge နှင့် responsible digital standard ကို အဆုံးသတ် message အဖြစ် ပြသမည့် closing slide။",
+      "image_plan": "Use a suitable image if needed"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "sourceFile": "/home/ubuntu/gwave-ai-source/supabase/seed/knowledge_seed.sql",
+  "sourceReference": "https://github.com/KoNyein/gwave.ai/tree/main/supabase/seed/knowledge",
+  "sourceRows": 2007,
+  "importedUniqueRows": 2000,
+  "duplicateSlugs": 0,
+  "duplicateSlugSamples": [],
+  "beforeCount": 2000,
+  "afterCount": 2000,
+  "newRows": 0,
+  "affectedRows": 2000,
+  "publicationDefault": "unpublished",
+  "verificationDefault": "unreviewed; no COA attached",
+  "generatedAt": "2026-08-20T13:31:36.679Z"
+}

@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1787224830632,
+      "tag": "0000_nifty_falcon",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787225194835,
+      "tag": "0001_easy_moondragon",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787225823499,
+      "tag": "0002_opposite_scourge",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787226002952,
+      "tag": "0003_broad_thor_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787229496436,
+      "tag": "0004_funny_adam_warlock",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1787230024632,
+      "tag": "0005_white_ghost_rider",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1787268002718,
+      "tag": "0006_chubby_vapor",
+      "breakpoints": true
+    }
+  ]
+}
