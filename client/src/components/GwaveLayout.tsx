@@ -7,6 +7,8 @@ import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 
+const DISCORD_INVITE_URL = "https://discord.gg/U7S8w9h58";
+
 const links = [
   ["Store", "/store"],
   ["Knowledge", "/knowledge"],
@@ -43,7 +45,7 @@ export function GwaveLayout({ children }: { children: React.ReactNode }) {
           <LanguageSwitcher compact />
           <ThemeToggle />
           {isAuthenticated ? <Link href="/orders" className="border border-white/20 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors hover:border-[#8bd32c] hover:text-[#8bd32c]">{user?.name?.split(" ")[0] || t("myOrders")}</Link> : <button onClick={startLogin} className="border border-white/20 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors hover:border-[#8bd32c] hover:text-[#8bd32c]">{t("signIn")}</button>}
-          <Link href="/contact" className="bg-[#8bd32c] px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-black transition-colors hover:bg-white">{t("contact")}</Link>
+          <Link href="/contact" className="bg-[#8bd32c] px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-black transition-colors hover:bg-white">{t("contact")}</Link><a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 border border-[#8bd32c]/60 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#8bd32c] transition-colors hover:bg-[#8bd32c] hover:text-black">{t("discordCommunity")} <ArrowUpRight className="size-3" /></a>
         </div>
         <button onClick={() => setOpen(value => !value)} className="grid size-10 place-items-center border border-white/20 transition-colors hover:border-[#8bd32c] lg:hidden" aria-label={t("menu")} aria-expanded={open}>{open ? <X className="size-5" /> : <Menu className="size-5" />}</button>
       </div>
@@ -52,7 +54,7 @@ export function GwaveLayout({ children }: { children: React.ReactNode }) {
         <nav className="mt-2" aria-label="Mobile navigation">
           {links.map(([label, href], index) => <Link onClick={() => setOpen(false)} key={href} href={href} className={`flex items-center justify-between border-b border-white/10 py-4 font-display text-2xl font-bold uppercase tracking-[-.02em] transition-colors hover:text-[#8bd32c] ${location === href ? "text-[#8bd32c]" : "text-white"}`}><span><span className="mr-3 font-mono text-[9px] text-white/30">0{index + 1}</span>{translatedLabel(label, t)}</span><ArrowUpRight className="size-4 text-white/30" /></Link>)}
         </nav>
-        <div className="mt-5 flex flex-wrap gap-2">{isAuthenticated ? <Link onClick={() => setOpen(false)} href="/orders" className="border border-[#8bd32c] px-3 py-3 font-mono text-[10px] uppercase tracking-[.15em] text-[#8bd32c]">{t("myOrders")} →</Link> : <button onClick={() => { setOpen(false); startLogin(); }} className="border border-[#8bd32c] px-3 py-3 font-mono text-[10px] uppercase tracking-[.15em] text-[#8bd32c]">{t("signIn")} →</button>}<Link onClick={() => setOpen(false)} href="/contact" className="bg-[#8bd32c] px-3 py-3 font-mono text-[10px] font-bold uppercase tracking-[.15em] text-black">{t("contact")}</Link></div>
+        <div className="mt-5 flex flex-wrap gap-2">{isAuthenticated ? <Link onClick={() => setOpen(false)} href="/orders" className="border border-[#8bd32c] px-3 py-3 font-mono text-[10px] uppercase tracking-[.15em] text-[#8bd32c]">{t("myOrders")} →</Link> : <button onClick={() => { setOpen(false); startLogin(); }} className="border border-[#8bd32c] px-3 py-3 font-mono text-[10px] uppercase tracking-[.15em] text-[#8bd32c]">{t("signIn")} →</button>}<Link onClick={() => setOpen(false)} href="/contact" className="bg-[#8bd32c] px-3 py-3 font-mono text-[10px] font-bold uppercase tracking-[.15em] text-black">{t("contact")}</Link><a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 border border-[#8bd32c]/60 px-3 py-3 font-mono text-[10px] uppercase tracking-[.15em] text-[#8bd32c]">{t("discordCommunity")} <ArrowUpRight className="size-3" /></a></div>
       </div>}
     </header>
     <div className="h-1 w-full bg-[#8bd32c]" />
@@ -60,7 +62,7 @@ export function GwaveLayout({ children }: { children: React.ReactNode }) {
     <footer className="border-t border-white/10 bg-[#0a0a0a]">
       <div className="mx-auto grid max-w-[1600px] gap-8 px-4 py-12 md:grid-cols-[1.2fr_2fr] md:px-8">
         <div><div className="flex items-center gap-3"><img src="/manus-storage/gwave-logo-green_9123ef02.png" alt="Gwave" className="size-10 object-contain md:size-12" /><p className="font-display text-4xl font-black tracking-[-0.1em] md:text-5xl">GWAVE</p></div><p className="mt-4 max-w-sm text-sm leading-6 text-white/55">{t("footerDescription")}</p></div>
-        <div className="grid grid-cols-2 gap-x-5 gap-y-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/55 sm:grid-cols-4">{[["Privacy", "/privacy"], ["Terms", "/terms"], ["Refunds", "/refunds"], ["Shipping", "/shipping"], ["Contact", "/contact"], ["Order desk", "/orders"], ["Staff", "/admin"], ["Help", "/help"], ["Roadmap", "/roadmap"], ["© 2026 Gwave", "/about"]].map(([label, href]) => <Link key={label} href={href} className="border-b border-white/10 py-3 transition-colors hover:text-[#8bd32c]">{translatedLabel(label, t)}</Link>)}</div>
+        <div className="grid grid-cols-2 gap-x-5 gap-y-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/55 sm:grid-cols-4">{[["Privacy", "/privacy"], ["Terms", "/terms"], ["Refunds", "/refunds"], ["Shipping", "/shipping"], ["Contact", "/contact"], ["Order desk", "/orders"], ["Staff", "/admin"], ["Help", "/help"], ["Roadmap", "/roadmap"], ["© 2026 Gwave", "/about"]].map(([label, href]) => <Link key={label} href={href} className="border-b border-white/10 py-3 transition-colors hover:text-[#8bd32c]">{translatedLabel(label, t)}</Link>)}<a href={DISCORD_INVITE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 border-b border-[#8bd32c]/50 py-3 text-[#8bd32c] transition-colors hover:text-white">{t("discordCommunity")} <ArrowUpRight className="size-3" /></a></div>
       </div>
     </footer>
   </div>;

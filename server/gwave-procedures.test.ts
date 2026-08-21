@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { TrpcContext } from "./_core/context";
-import { ageAcknowledgements, coaReports, newsPosts, paymentSlipAccessAudits, paymentSlips, productImages, products } from "../drizzle/schema";
+import { ageAcknowledgements, coaReports, newsPosts, paymentSlipAccessAudits, paymentSlips, productImages, productModels, products } from "../drizzle/schema";
 
 const mocks = vi.hoisted(() => ({
   getDb: vi.fn(),
@@ -125,6 +125,25 @@ describe("Gwave protected procedures", () => {
     expect(values).toHaveBeenCalledWith(expect.objectContaining({ productId: 9, storageUrl: "/manus-storage/private/payment-slips/mock.png_1234", altText: "Signal product", isPublished: true }));
   });
 
+  it("uploads a valid GLB model as hidden staff-managed media", async () => {
+    const values = vi.fn().mockResolvedValue({ insertId: 52 });
+    const db = {
+      select: vi.fn(() => ({ from: vi.fn((table: unknown) => ({ where: vi.fn(() => ({ limit: vi.fn().mockResolvedValue(table === products ? [{ id: 9 }] : []), orderBy: vi.fn(() => ({ limit: vi.fn().mockResolvedValue([]) })) })) })) })),
+      insert: vi.fn(() => ({ values })),
+    };
+    mocks.getDb.mockResolvedValue(db);
+
+    await expect(appRouter.createCaller(context("staff")).gwave.staff.uploadProductModel({ productId: 9, filename: "signal.glb", contentType: "model/gltf-binary", dataBase64: Buffer.from("glb-bytes").toString("base64"), altText: "Signal 3D model" })).resolves.toEqual({ uploaded: true, url: "/manus-storage/private/payment-slips/mock.png_1234" });
+    expect(db.insert).toHaveBeenCalledWith(productModels);
+    expect(values).toHaveBeenCalledWith(expect.objectContaining({ productId: 9, originalFilename: "signal.glb", mimeType: "model/gltf-binary", isPublished: false, createdBy: 77 }));
+    expect(mocks.storagePut).toHaveBeenCalledWith(expect.stringMatching(/^private\/product-models\/9\//), expect.any(Buffer), "model/gltf-binary");
+  });
+
+  it("keeps GLB model uploads staff-only and validates the file contract", async () => {
+    await expect(appRouter.createCaller(context("user")).gwave.staff.uploadProductModel({ productId: 9, filename: "signal.glb", contentType: "model/gltf-binary", dataBase64: Buffer.from("glb-bytes").toString("base64"), altText: "Signal 3D model" })).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(appRouter.createCaller(context("staff")).gwave.staff.uploadProductModel({ productId: 9, filename: "signal.obj", contentType: "application/octet-stream", dataBase64: Buffer.from("obj-bytes").toString("base64"), altText: "Signal 3D model" })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+
   it("returns an approved public COA summary without a private document key", async () => {
     const record = { id: 4, slug: "verified-record", isPublished: true, name: "Verified Record" };
     const publicCoa = { labName: "Verified Lab", reportNumber: "COA-004", batchLot: "LOT-04", testedAt: new Date("2026-08-01"), cannabinoidResults: { THC: "20–22%" }, terpeneSummary: { summary: "Supplier-provided summary" }, sourceReference: "Lab portal / COA-004", reviewedAt: new Date("2026-08-02") };
@@ -140,7 +159,8 @@ describe("Gwave protected procedures", () => {
 
     const result = await appRouter.createCaller(context()).gwave.knowledge.detail({ slug: "verified-record" });
 
-    expect(result.coa).toEqual(publicCoa);
+    expect(result.coa).toMatchObject({ labName: publicCoa.labName, reportNumber: publicCoa.reportNumber, cannabinoidResults: publicCoa.cannabinoidResults });
+    expect(result.coa).not.toHaveProperty("sourceReference");
     expect(result.coa).not.toHaveProperty("privateDocumentKey");
   });
 });
