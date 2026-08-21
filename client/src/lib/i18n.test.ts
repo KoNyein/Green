@@ -24,7 +24,7 @@ describe("Gwave language dictionary", () => {
   });
 
   it("provides translated coverage for the primary workflows", () => {
-    for (const key of ["ageRequired", "searchHelp", "operations", "coaVerification", "footerDescription", "signInContinue", "dashboardAuthRequired", "roadmap"] as const) {
+    for (const key of ["ageRequired", "searchHelp", "operations", "coaVerification", "footerDescription", "discordCommunity", "signInContinue", "dashboardAuthRequired", "roadmap"] as const) {
       expect(translations.en[key].length).toBeGreaterThan(0);
       expect(translations.my[key].length).toBeGreaterThan(0);
     }

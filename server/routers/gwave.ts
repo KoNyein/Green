@@ -13,6 +13,7 @@ import {
   paymentSlips,
   products,
   productImages,
+  productModels,
   productVariants,
   stockReservations,
   strains,
@@ -33,6 +34,7 @@ import {
 } from "../gwave-workflows";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { coversReservation, isReservationActive, STOCK_RESERVATION_TTL_MS } from "../stock-reservation";
+import { sanitizePublicStrainRecord } from "../gwave-public";
 
 const productCategory = z.enum(["seed", "farm", "merch"]);
 const orderStatus = z.enum(ORDER_STATUSES);
@@ -121,6 +123,17 @@ export const gwaveRouter = router({
       }
       return db.select().from(productImages).where(and(eq(productImages.productId, input.productId), eq(productImages.isPublished, true))).orderBy(productImages.sortOrder);
     }),
+    models: publicProcedure.input(z.object({ productId: z.number().int().positive() })).query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const product = await db.select({ isRestricted: products.isRestricted, isPublished: products.isPublished }).from(products).where(eq(products.id, input.productId)).limit(1);
+      if (!product[0] || !product[0].isPublished) return [];
+      if (product[0].isRestricted) {
+        if (!ctx.user) throw new TRPCError({ code: "UNAUTHORIZED", message: "Sign in and confirm 21+ status to view this product." });
+        await requireAgeAcknowledgement(ctx.user.id);
+      }
+      return db.select({ id: productModels.id, productId: productModels.productId, storageUrl: productModels.storageUrl, originalFilename: productModels.originalFilename, altText: productModels.altText, sortOrder: productModels.sortOrder }).from(productModels).where(and(eq(productModels.productId, input.productId), eq(productModels.isPublished, true))).orderBy(productModels.sortOrder, productModels.id);
+    }),
     detail: publicProcedure.input(z.object({ productId: z.number().int().positive() })).query(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is unavailable." });
@@ -132,7 +145,8 @@ export const gwaveRouter = router({
       }
       const variants = await db.select().from(productVariants).where(eq(productVariants.productId, input.productId));
       const images = await db.select().from(productImages).where(and(eq(productImages.productId, input.productId), eq(productImages.isPublished, true))).orderBy(productImages.sortOrder);
-      return { product: product[0], variants: variants.filter(variant => variant.isActive), images };
+      const models = await db.select({ id: productModels.id, productId: productModels.productId, storageUrl: productModels.storageUrl, originalFilename: productModels.originalFilename, altText: productModels.altText, sortOrder: productModels.sortOrder }).from(productModels).where(and(eq(productModels.productId, input.productId), eq(productModels.isPublished, true))).orderBy(productModels.sortOrder, productModels.id);
+      return { product: product[0], variants: variants.filter(variant => variant.isActive), images, models };
     }),
   }),
 
@@ -147,15 +161,16 @@ export const gwaveRouter = router({
       if (input?.cbdMin !== undefined) clauses.push(gte(strains.cbdMaxPercent, input.cbdMin.toFixed(2)));
       if (input?.cbdMax !== undefined) clauses.push(lte(strains.cbdMinPercent, input.cbdMax.toFixed(2)));
       const records = await db.select().from(strains).where(and(...clauses)).orderBy(desc(strains.updatedAt));
-      return records.filter(record => matchesStrainProfileFilters(record, input ?? {}));
+      return records.filter(record => matchesStrainProfileFilters(record, input ?? {})).map(record => sanitizePublicStrainRecord(record));
     }),
     detail: publicProcedure.input(z.object({ slug: z.string().min(1).max(180) })).query(async ({ input }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is unavailable." });
       const item = await db.select().from(strains).where(and(eq(strains.slug, input.slug), eq(strains.isPublished, true))).limit(1);
       if (!item[0]) throw new TRPCError({ code: "NOT_FOUND", message: "Knowledge record not found." });
-      const coa = await db.select({ labName: coaReports.labName, reportNumber: coaReports.reportNumber, batchLot: coaReports.batchLot, testedAt: coaReports.testedAt, cannabinoidResults: coaReports.cannabinoidResults, terpeneSummary: coaReports.terpeneSummary, sourceReference: coaReports.sourceReference, reviewedAt: coaReports.reviewedAt }).from(coaReports).where(and(eq(coaReports.strainId, item[0].id), eq(coaReports.status, "approved"))).orderBy(desc(coaReports.reviewedAt)).limit(1);
-      return { record: item[0], coa: coa[0] ?? null };
+      const coa = await db.select({ labName: coaReports.labName, reportNumber: coaReports.reportNumber, batchLot: coaReports.batchLot, testedAt: coaReports.testedAt, cannabinoidResults: coaReports.cannabinoidResults, terpeneSummary: coaReports.terpeneSummary, reviewedAt: coaReports.reviewedAt }).from(coaReports).where(and(eq(coaReports.strainId, item[0].id), eq(coaReports.status, "approved"))).orderBy(desc(coaReports.reviewedAt)).limit(1);
+      const publicCoa = coa[0] ? (() => { const { sourceReference: _sourceReference, ...safeCoa } = coa[0] as typeof coa[0] & { sourceReference?: string }; return safeCoa; })() : null;
+      return { record: sanitizePublicStrainRecord(item[0]), coa: publicCoa };
     }),
   }),
 
@@ -354,6 +369,49 @@ export const gwaveRouter = router({
       const image = await db.select({ id: productImages.id }).from(productImages).where(eq(productImages.id, input.imageId)).limit(1);
       if (!image[0]) throw new TRPCError({ code: "NOT_FOUND", message: "Product image not found." });
       await db.delete(productImages).where(eq(productImages.id, input.imageId));
+      return { deleted: true } as const;
+    }),
+    productModels: staffProcedure.input(z.object({ productId: z.number().int().positive() })).query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      return db.select().from(productModels).where(eq(productModels.productId, input.productId)).orderBy(productModels.sortOrder, productModels.id);
+    }),
+    uploadProductModel: staffProcedure.input(z.object({ productId: z.number().int().positive(), filename: z.string().regex(/\.glb$/i).max(220), contentType: z.enum(["model/gltf-binary", "application/octet-stream"]), dataBase64: z.string().min(1).max(36_000_000), altText: z.string().min(2).max(220), isPublished: z.boolean().default(false) })).mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is unavailable." });
+      const product = await db.select({ id: products.id }).from(products).where(eq(products.id, input.productId)).limit(1);
+      if (!product[0]) throw new TRPCError({ code: "NOT_FOUND", message: "Product not found." });
+      const bytes = Buffer.from(input.dataBase64.replace(/^data:[^;]+;base64,/, ""), "base64");
+      if (!bytes.length || bytes.length > 25 * 1024 * 1024) throw new TRPCError({ code: "BAD_REQUEST", message: "GLB model must be between 1 byte and 25 MB." });
+      const rawName = input.filename.toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/-+/g, "-").slice(-160) || "product-model.glb";
+      const stored = await storagePut(`private/product-models/${input.productId}/${Date.now()}-${rawName}`, bytes, input.contentType);
+      const current = await db.select({ sortOrder: productModels.sortOrder }).from(productModels).where(eq(productModels.productId, input.productId)).orderBy(desc(productModels.sortOrder)).limit(1);
+      await db.insert(productModels).values({ productId: input.productId, storageKey: stored.key, storageUrl: stored.url, originalFilename: input.filename, mimeType: input.contentType, fileSizeBytes: bytes.byteLength, altText: input.altText, sortOrder: (current[0]?.sortOrder ?? -1) + 1, isPublished: input.isPublished, createdBy: ctx.user.id });
+      return { uploaded: true, url: stored.url } as const;
+    }),
+    updateProductModel: staffProcedure.input(z.object({ modelId: z.number().int().positive(), altText: z.string().min(2).max(220).optional(), isPublished: z.boolean().optional() })).mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is unavailable." });
+      const model = await db.select({ id: productModels.id }).from(productModels).where(eq(productModels.id, input.modelId)).limit(1);
+      if (!model[0]) throw new TRPCError({ code: "NOT_FOUND", message: "Product model not found." });
+      await db.update(productModels).set({ ...(input.altText !== undefined ? { altText: input.altText } : {}), ...(input.isPublished !== undefined ? { isPublished: input.isPublished } : {}) }).where(eq(productModels.id, input.modelId));
+      return { updated: true } as const;
+    }),
+    reorderProductModels: staffProcedure.input(z.object({ productId: z.number().int().positive(), orderedIds: z.array(z.number().int().positive()).min(1) })).mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is unavailable." });
+      const models = await db.select({ id: productModels.id }).from(productModels).where(eq(productModels.productId, input.productId));
+      const existing = new Set(models.map(model => model.id));
+      if (models.length !== input.orderedIds.length || input.orderedIds.some(id => !existing.has(id)) || new Set(input.orderedIds).size !== input.orderedIds.length) throw new TRPCError({ code: "BAD_REQUEST", message: "The model order does not match this product." });
+      for (let sortOrder = 0; sortOrder < input.orderedIds.length; sortOrder += 1) await db.update(productModels).set({ sortOrder }).where(and(eq(productModels.id, input.orderedIds[sortOrder]), eq(productModels.productId, input.productId)));
+      return { updated: true } as const;
+    }),
+    deleteProductModel: staffProcedure.input(z.object({ modelId: z.number().int().positive() })).mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Database is unavailable." });
+      const model = await db.select({ id: productModels.id }).from(productModels).where(eq(productModels.id, input.modelId)).limit(1);
+      if (!model[0]) throw new TRPCError({ code: "NOT_FOUND", message: "Product model not found." });
+      await db.delete(productModels).where(eq(productModels.id, input.modelId));
       return { deleted: true } as const;
     }),
     slips: staffProcedure.query(async () => {

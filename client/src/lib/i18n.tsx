@@ -45,6 +45,7 @@ export const translations = {
     signInContinue: "Sign in to continue",
     dashboardAuthRequired: "Access to this dashboard requires authentication. Continue to launch the login flow.",
     footerDescription: "A compliance-aware catalogue, knowledge and merchandise platform. Access, availability and fulfilment depend on applicable rules.",
+    discordCommunity: "Discord community",
   },
   my: {
     language: "ဘာသာစကား",
@@ -75,6 +76,7 @@ export const translations = {
     signInContinue: "ဆက်လက်ရန် အကောင့်ဝင်ပါ",
     dashboardAuthRequired: "ဤ dashboard ကို အသုံးပြုရန် အကောင့်ဝင်ရန် လိုအပ်ပါသည်။ Login flow ကို ဆက်လက်ဖွင့်ပါ။",
     footerDescription: "Compliance ကို အခြေခံထားသော catalogue၊ knowledge နှင့် merchandise platform ဖြစ်ပါသည်။ ဝင်ရောက်ခွင့်၊ ရရှိနိုင်မှုနှင့် ပို့ဆောင်မှုများသည် သက်ဆိုင်ရာ စည်းမျဉ်းများအပေါ် မူတည်ပါသည်။",
+    discordCommunity: "Discord community",
   },
 } as const;
 
