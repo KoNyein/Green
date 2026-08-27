@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="64" height="64" fill="none">
+  <defs>
+    <linearGradient id="gwave-fav-top" x1="160" y1="180" x2="860" y2="350" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#98ce26" />
+      <stop offset="100%" stop-color="#70ad22" />
+    </linearGradient>
+    <linearGradient id="gwave-fav-dark" x1="200" y1="240" x2="860" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#67a627" />
+      <stop offset="100%" stop-color="#357e23" />
+    </linearGradient>
+    <linearGradient id="gwave-fav-spine" x1="140" y1="360" x2="480" y2="880" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#98ce26" />
+      <stop offset="100%" stop-color="#559924" />
+    </linearGradient>
+    <linearGradient id="gwave-fav-leaf" x1="690" y1="450" x2="780" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2ca849" />
+      <stop offset="100%" stop-color="#125622" />
+    </linearGradient>
+  </defs>
+  <path d="M 160 440 C 210 270 360 180 570 180 C 690 180 790 200 864 185 C 865 186 780 280 620 280 C 420 280 280 340 160 440 Z" fill="url(#gwave-fav-top)" />
+  <path d="M 160 440 C 280 340 420 280 620 280 C 780 280 865 186 864 185 C 840 250 760 375 620 375 C 440 375 280 350 160 440 Z" fill="url(#gwave-fav-dark)" />
+  <path d="M 160 440 C 140 500 148 620 200 710 C 260 810 350 860 460 870 C 440 855 355 790 330 760 C 255 670 205 570 215 450 C 270 390 360 360 440 355 C 330 360 210 400 160 440 Z" fill="url(#gwave-fav-spine)" />
+  <path d="M 780 865 C 770 730 735 590 715 450 C 695 560 690 710 780 865 Z" fill="url(#gwave-fav-leaf)" />
+  <path d="M 780 865 C 785 710 780 560 715 450 C 740 580 775 730 780 865 Z" fill="#1e8236" />
+  <path d="M 780 865 C 670 750 560 640 470 530 C 530 630 630 750 780 865 Z" fill="#2ca849" />
+  <path d="M 780 865 C 630 750 530 630 470 530 C 580 660 690 770 780 865 Z" fill="#104f1e" />
+  <path d="M 780 865 C 630 810 500 785 390 790 C 490 830 630 855 780 865 Z" fill="#2ba246" />
+</svg>

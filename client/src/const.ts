@@ -17,15 +17,28 @@ export const startLogin = () => {
   const appId = import.meta.env.VITE_APP_ID;
   const redirectUri = `${window.location.origin}/api/oauth/callback`;
 
+  if (!oauthPortalUrl) {
+    console.warn("[Auth] VITE_OAUTH_PORTAL_URL is not set.");
+    return;
+  }
+
   const nonce = crypto.randomUUID();
   document.cookie = `${OAUTH_STATE_COOKIE}=${nonce}; Path=/; Max-Age=600; SameSite=None; Secure`;
   const state = encodeOAuthState({ redirectUri, nonce });
 
-  const url = new URL(`${oauthPortalUrl}/app-auth`);
-  url.searchParams.set("appId", appId);
-  url.searchParams.set("redirectUri", redirectUri);
-  url.searchParams.set("state", state);
-  url.searchParams.set("type", "signIn");
+  try {
+    const baseUrl = oauthPortalUrl.startsWith("http://") || oauthPortalUrl.startsWith("https://")
+      ? oauthPortalUrl.replace(/\/+$/, "")
+      : `https://${oauthPortalUrl.replace(/\/+$/, "")}`;
 
-  window.location.href = url.toString();
+    const url = new URL(`${baseUrl}/app-auth`);
+    url.searchParams.set("appId", appId || "");
+    url.searchParams.set("redirectUri", redirectUri);
+    url.searchParams.set("state", state);
+    url.searchParams.set("type", "signIn");
+
+    window.location.href = url.toString();
+  } catch (err) {
+    console.error("[Auth] Failed to construct login URL:", err);
+  }
 };

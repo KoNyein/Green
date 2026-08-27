@@ -1,0 +1,6 @@
+{
+  "name": "Gwave Marketplace",
+  "description": "Compliance-aware lifestyle, knowledge, and merchandise platform with catalogue, strain data, and order handling.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

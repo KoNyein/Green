@@ -1,5 +1,6 @@
 import { startLogin } from "@/const";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { GwaveLogo } from "@/components/GwaveLogo";
 import { useLanguage } from "@/lib/i18n";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -35,7 +36,7 @@ export function GwaveLayout({ children }: { children: React.ReactNode }) {
   return <div className="min-h-screen bg-black text-white">
     <header className="sticky top-0 z-40 border-b border-white/10 bg-black/92 backdrop-blur-xl">
       <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-3 md:px-8 md:py-4">
-        <Link href="/" className="flex items-center gap-3" aria-label="Gwave home"><img src="/manus-storage/gwave-logo-green_9123ef02.png" alt="Gwave" className="size-8 object-contain md:size-9" /><span className="font-display text-3xl font-black tracking-[-0.12em] md:text-4xl">GWAVE</span></Link>
+        <Link href="/" className="flex items-center gap-3" aria-label="Gwave home"><GwaveLogo className="size-8 md:size-9" /><span className="font-display text-3xl font-black tracking-[-0.12em] md:text-4xl">GWAVE</span></Link>
         <nav className="hidden items-center gap-5 lg:flex" aria-label="Primary navigation">
           {links.map(([label, href]) => <Link key={href} href={href} className={`font-mono text-[10px] uppercase tracking-[0.16em] transition-colors hover:text-[#8bd32c] ${location === href ? "text-[#8bd32c]" : "text-white/62"}`}>{translatedLabel(label, t)}</Link>)}
         </nav>
@@ -59,7 +60,7 @@ export function GwaveLayout({ children }: { children: React.ReactNode }) {
     <main>{children}</main>
     <footer className="border-t border-white/10 bg-[#0a0a0a]">
       <div className="mx-auto grid max-w-[1600px] gap-8 px-4 py-12 md:grid-cols-[1.2fr_2fr] md:px-8">
-        <div><div className="flex items-center gap-3"><img src="/manus-storage/gwave-logo-green_9123ef02.png" alt="Gwave" className="size-10 object-contain md:size-12" /><p className="font-display text-4xl font-black tracking-[-0.1em] md:text-5xl">GWAVE</p></div><p className="mt-4 max-w-sm text-sm leading-6 text-white/55">{t("footerDescription")}</p></div>
+        <div><div className="flex items-center gap-3"><GwaveLogo className="size-10 md:size-12" /><p className="font-display text-4xl font-black tracking-[-0.1em] md:text-5xl">GWAVE</p></div><p className="mt-4 max-w-sm text-sm leading-6 text-white/55">{t("footerDescription")}</p></div>
         <div className="grid grid-cols-2 gap-x-5 gap-y-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white/55 sm:grid-cols-4">{[["Privacy", "/privacy"], ["Terms", "/terms"], ["Refunds", "/refunds"], ["Shipping", "/shipping"], ["Contact", "/contact"], ["Order desk", "/orders"], ["Staff", "/admin"], ["Help", "/help"], ["Roadmap", "/roadmap"], ["© 2026 Gwave", "/about"]].map(([label, href]) => <Link key={label} href={href} className="border-b border-white/10 py-3 transition-colors hover:text-[#8bd32c]">{translatedLabel(label, t)}</Link>)}</div>
       </div>
     </footer>

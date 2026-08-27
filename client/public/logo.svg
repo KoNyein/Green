@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="512" height="512" fill="none">
+  <defs>
+    <linearGradient id="gwave-top-light" x1="160" y1="180" x2="860" y2="350" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#98ce26" />
+      <stop offset="50%" stop-color="#84bf25" />
+      <stop offset="100%" stop-color="#70ad22" />
+    </linearGradient>
+
+    <linearGradient id="gwave-top-dark" x1="200" y1="240" x2="860" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#67a627" />
+      <stop offset="60%" stop-color="#4a9528" />
+      <stop offset="100%" stop-color="#357e23" />
+    </linearGradient>
+
+    <linearGradient id="gwave-spine-outer" x1="140" y1="360" x2="480" y2="880" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#98ce26" />
+      <stop offset="45%" stop-color="#82bd24" />
+      <stop offset="85%" stop-color="#6ea921" />
+      <stop offset="100%" stop-color="#559924" />
+    </linearGradient>
+
+    <linearGradient id="gwave-spine-inner" x1="200" y1="360" x2="460" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#579d26" />
+      <stop offset="50%" stop-color="#428a26" />
+      <stop offset="100%" stop-color="#2f7521" />
+    </linearGradient>
+
+    <linearGradient id="gwave-leaf-center-l" x1="690" y1="450" x2="780" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2ca849" />
+      <stop offset="100%" stop-color="#1e7e34" />
+    </linearGradient>
+    <linearGradient id="gwave-leaf-center-r" x1="720" y1="450" x2="780" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e8236" />
+      <stop offset="100%" stop-color="#125622" />
+    </linearGradient>
+
+    <linearGradient id="gwave-leaf-mid-l" x1="470" y1="530" x2="780" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2ca849" />
+      <stop offset="100%" stop-color="#1e7e34" />
+    </linearGradient>
+    <linearGradient id="gwave-leaf-mid-r" x1="500" y1="540" x2="780" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1c7c32" />
+      <stop offset="100%" stop-color="#104f1e" />
+    </linearGradient>
+
+    <linearGradient id="gwave-leaf-bot-l" x1="390" y1="790" x2="780" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2ba246" />
+      <stop offset="100%" stop-color="#1c7a31" />
+    </linearGradient>
+    <linearGradient id="gwave-leaf-bot-r" x1="400" y1="810" x2="780" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#18722b" />
+      <stop offset="100%" stop-color="#0d4619" />
+    </linearGradient>
+
+    <linearGradient id="gwave-leaf-base" x1="720" y1="780" x2="780" y2="860" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#25943f" />
+      <stop offset="100%" stop-color="#115520" />
+    </linearGradient>
+  </defs>
+
+  <!-- Top Curved Leaf Swoosh -->
+  <path d="M 160 440 C 210 270 360 180 570 180 C 690 180 790 200 864 185 C 865 186 780 280 620 280 C 420 280 280 340 160 440 Z" fill="url(#gwave-top-light)" />
+  <path d="M 160 440 C 280 340 420 280 620 280 C 780 280 865 186 864 185 C 840 250 760 375 620 375 C 440 375 280 350 160 440 Z" fill="url(#gwave-top-dark)" />
+
+  <!-- Main 'G' Spine Swoosh -->
+  <path d="M 160 440 C 140 500 148 620 200 710 C 260 810 350 860 460 870 C 440 855 355 790 330 760 C 255 670 205 570 215 450 C 270 390 360 360 440 355 C 330 360 210 400 160 440 Z" fill="url(#gwave-spine-outer)" />
+  <path d="M 215 450 C 205 570 255 670 330 760 C 355 790 440 855 460 870 C 380 840 300 760 260 670 C 220 580 215 490 255 425 C 235 435 220 442 215 450 Z" fill="url(#gwave-spine-inner)" />
+  <path d="M 215 450 C 275 390 370 358 440 355 C 340 365 240 410 215 450 Z" fill="#3f8823" />
+
+  <!-- Botanical Cannabis 5-Leaf Fan inside 'G' -->
+  <path d="M 780 865 C 770 730 735 590 715 450 C 695 560 690 710 780 865 Z" fill="url(#gwave-leaf-center-l)" />
+  <path d="M 780 865 C 785 710 780 560 715 450 C 740 580 775 730 780 865 Z" fill="url(#gwave-leaf-center-r)" />
+
+  <path d="M 780 865 C 670 750 560 640 470 530 C 530 630 630 750 780 865 Z" fill="url(#gwave-leaf-mid-l)" />
+  <path d="M 780 865 C 630 750 530 630 470 530 C 580 660 690 770 780 865 Z" fill="url(#gwave-leaf-mid-r)" />
+
+  <path d="M 780 865 C 630 810 500 785 390 790 C 490 830 630 855 780 865 Z" fill="url(#gwave-leaf-bot-l)" />
+  <path d="M 780 865 C 630 855 490 830 390 790 C 510 850 650 865 780 865 Z" fill="url(#gwave-leaf-bot-r)" />
+
+  <path d="M 780 865 C 790 780 790 700 780 640 C 770 710 765 790 780 865 Z" fill="url(#gwave-leaf-base)" />
+  <path d="M 780 865 C 750 850 710 840 680 850 C 720 860 760 865 780 865 Z" fill="#0d4619" />
+  <circle cx="780" cy="865" r="4" fill="#1e7e34" />
+</svg>
